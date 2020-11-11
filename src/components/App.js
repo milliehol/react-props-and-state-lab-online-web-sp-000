@@ -17,7 +17,7 @@ class App extends React.Component {
 
   handleChange = event => {
   this.setState({
-    message: event.target.value
+    filters: event.target.value
   })
 }
 
