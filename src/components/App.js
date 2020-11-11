@@ -15,11 +15,28 @@ class App extends React.Component {
     }
   }
 
-  handleChange = event => {
-  this.setState({
-    filters: event.target.value
-  })
-}
+  fetchPets = () => {
+    let location = '/api/pets';
+
+    if (this.state.filters.type !== 'all') {
+      location += `?type=${this.state.filters.type}`;
+    }
+
+    fetch(location)
+      .then(res => res.json())
+      .then(pets => this.setState({ pets: pets }));
+  };
+
+  onChangeType = ({ target: { value } }) => {
+    this.setState({ filters: { ...this.state.filters, type: value } });
+  };
+
+  onAdoptPet = petId => {
+    const pets = this.state.pets.map(p => {
+      return p.id === petId ? { ...p, isAdopted: true } : p;
+    });
+    this.setState({ pets: pets });
+  };
 
   render() {
     return (
